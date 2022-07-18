@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:symptom_checker/report.dart';
 import 'package:symptom_checker/utils/question_provider.dart';
-import 'package:symptom_checker/utils/raside_button.dart';
+import 'package:symptom_checker/utils/questionner_response_builder.dart';
 
 import 'models/question.dart';
+import 'models/symptom_check_response.dart';
 
 class ResponseCaptureForm extends StatefulWidget {
   const ResponseCaptureForm({Key? key}) : super(key: key);
@@ -13,7 +16,8 @@ class ResponseCaptureForm extends StatefulWidget {
 }
 
 class _ResponseCaptureFormState extends State<ResponseCaptureForm> {
-  Map<String, String> response = {};
+
+  final SymptomCheckResponse _response = SymptomCheckResponse();
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +41,34 @@ class _ResponseCaptureFormState extends State<ResponseCaptureForm> {
               }),
         Container(
           child: ElevatedButton(
-            style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20)),
+            style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20),
+                primary: Color(0xFF093863)),
             onPressed: () {
+              try
+              {
+                var fhirResponse = QuestionnaireResponseBuilder(questionProvider: QuestionProvider(), symptomCheckResponse: _response).build();
+                showDialog(context: context,
+                    builder: (ctx) => AlertDialog(
+                      title: const Text("FHIR representation of the Response:"),
+                      content:  Text(json.encode(fhirResponse)?? ""),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(ctx).pop();
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(14),
+                            child: const Text("Close"),
+                          ),
+                        ),
+                      ],
+                    ));
+                print(fhirResponse);
+              }catch(e)
+              {
+                print(e);
+              }
+
               Navigator.of(context).push(MaterialPageRoute(builder: (context) => SymptomReport()));
             },
             child: const Text('Submit'),
@@ -103,7 +133,7 @@ class _ResponseCaptureFormState extends State<ResponseCaptureForm> {
             label: Text(
                 optionName,
                 style: TextStyle(
-                    color: isSelected || (this.response[questionId] == optionName)
+                    color: isSelected || (_response.getResponse(questionId) == optionName)
                         ? Colors.white
                         :Color(0xFF5D5D5D),
                     fontFamily: 'Montserrat_regular',
@@ -117,10 +147,10 @@ class _ResponseCaptureFormState extends State<ResponseCaptureForm> {
                   color: Color(0xFFD2D2D2),
                 )),
             elevation: 0,
-            selected: isSelected || (this.response[questionId] == optionName),
+            selected: isSelected || (_response.getResponse(questionId) == optionName),
             onSelected:(selected) {
               setState(() {
-                this.response[questionId] = optionName;
+                _response.addResponse(questionId, optionName);
               });
             }
         )

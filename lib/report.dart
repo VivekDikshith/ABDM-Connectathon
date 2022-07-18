@@ -78,7 +78,7 @@ class SymptomReport extends StatelessWidget {
   prefixIcon: Padding(
   padding:  EdgeInsets.all(10.0),
   child: Image.asset(
-  './aadhar_verify_true.png',
+  './assets/aadhar_verify_true.png',
   width: 40,
   height: 40,
   fit: BoxFit.fill,
@@ -102,7 +102,7 @@ class SymptomReport extends StatelessWidget {
 
   Widget buildReportScale() => Container(
     child: Image.asset(
-      './ReportScale.png',
+      './assets/ReportScale.png',
       width: 300,
       height: 40,
       fit: BoxFit.fill,
@@ -113,7 +113,7 @@ class SymptomReport extends StatelessWidget {
     child: Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("doctor.png"),
+          image: AssetImage("./assets/doctor.png"),
           fit: BoxFit.cover,
         ),
       ),
@@ -127,11 +127,11 @@ class SymptomReport extends StatelessWidget {
           ),
           Text(
             "Book a",
-            style: TextStyle(color: Colors.blueGrey, fontWeight: FontWeight.bold, fontSize: 24 ),
+            style: TextStyle(color: Color(0xFF093863), fontWeight: FontWeight.bold, fontSize: 24 ),
           ),
           Text(
             "Consultation",
-            style: TextStyle(color: Colors.blueGrey, fontWeight: FontWeight.bold, fontSize: 24 ),
+            style: TextStyle(color: Color(0xFF093863), fontWeight: FontWeight.bold, fontSize: 24 ),
           ),
           Text(
             "As yo have moderate symptoms of",
@@ -150,11 +150,13 @@ class SymptomReport extends StatelessWidget {
   );
 
   Widget buildConsultationButton(BuildContext context) => ElevatedButton(
-    style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 25, color: Colors.blueGrey)),
+    style: ElevatedButton.styleFrom(
+        primary: const Color(0xFF093863)
+    ),
     onPressed: () {
       Navigator.of(context).push(MaterialPageRoute(builder: (context) => ConsultantList()));
     },
     child: const Text('Book a Consultation',
-        style: TextStyle(fontSize: 24, color: Colors.white)),
+        style: TextStyle(fontSize: 24)),
   );
 }

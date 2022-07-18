@@ -20,7 +20,7 @@ class SpecialistInFo extends StatelessWidget {
                 children: [
                   Column(
                     children: [
-                      ProfileWidget(imagePath: './doctor.png')
+                      ProfileWidget(imagePath: './assets/doctor.png')
                     ],
                   ),
                   const SizedBox(width: 24),
@@ -33,7 +33,7 @@ class SpecialistInFo extends StatelessWidget {
                       const SizedBox(height: 6),
                       Text(
                         this.specialistInfo.name,
-                        style: TextStyle(color: Colors.blueGrey, fontWeight: FontWeight.bold, fontSize: 24 ),
+                        style: TextStyle(color: Color(0xFF093863), fontWeight: FontWeight.bold, fontSize: 24 ),
                       ),
                       const SizedBox(height: 10),
                       Row(
@@ -58,7 +58,7 @@ class SpecialistInFo extends StatelessWidget {
               ],
             ),
 
-            buildOption("Book Now", false, Alignment.bottomRight, Colors.blueGrey),
+            buildOption("Book Now", false, Alignment.bottomRight, Color(0xFF093863)),
           ],
         ),
       ),
@@ -91,7 +91,7 @@ class SpecialistInFo extends StatelessWidget {
             label: Text(
                 optionName,
                 style: TextStyle(
-                    color: isSelected
+                    color: isSelected || (optionName == 'Book Now')
                         ? Colors.white
                         :Color(0xFF5D5D5D),
                     fontFamily: 'Montserrat_regular',
